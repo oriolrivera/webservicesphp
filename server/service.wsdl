@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<definitions name="Service" targetNamespace="urn:Service" xmlns:typens="urn:Service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+       <!--acá construyo el mensaje SOAP-->
+
+
+
+		  <message name='add_producto_server'>
+		  <part name='pro' type='xsd:string'/>
+		  <part name='precio' type='xsd:string' />
+          <part name='cat' type='xsd:string' />
+		</message>
+
+
+        <message name="add_producto_serverResponse">
+                <part name="add_producto_serverReturn" type="xsd:string"/>
+
+        </message>
+
+
+         	<message name='get_productos' />
+		 <message name="get_productosResponse">
+                <part name="get_productosReturn" type="xsd:array"/>
+
+        </message>
+
+		<!-- realiza el formateo -->
+        <portType name="UserFacadePortType">
+
+              <operation name="add_producto_server">
+                        <input message="typens:add_producto_server"/>
+                        <output message="typens:add_producto_serverResponse"/>
+                </operation>
+				<operation name="get_productos">
+                        <input message="typens:get_productos"/>
+                        <output message="typens:get_productosResponse"/>
+                </operation>
+        </portType>
+
+
+        <binding name="UserFacadeBinding" type="typens:UserFacadePortType">
+
+                <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+
+
+               <operation name="add_producto_server">
+                        <soap:operation soapAction="urn:UserFacadeAction"/>
+                        <input>
+                                <soap:body namespace="urn:Service" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                        </input>
+                        <output>
+                                <soap:body namespace="urn:Service" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                        </output>
+                </operation>
+                <operation name="get_productos">
+                        <soap:operation soapAction="urn:UserFacadeAction"/>
+                        <input>
+                                <soap:body namespace="urn:Service" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                        </input>
+                        <output>
+                                <soap:body namespace="urn:Service" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+                        </output>
+                </operation>
+
+        </binding>
+
+
+        <service name="ServiceService">
+                <port name="UserFacadePort" binding="typens:UserFacadeBinding">
+                        <soap:address location="http://127.0.0.1:8080/webservice/server/servidor.php"/>
+                </port>
+        </service>
+</definitions>
